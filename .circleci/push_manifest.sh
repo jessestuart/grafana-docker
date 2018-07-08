@@ -21,7 +21,7 @@ push_manifest() {
     --template "$IMAGE_NAME:$VERSION-ARCH" \
     --target "$IMAGE_NAME:$TAG"
   # Verify manifest was persisted remotely.
-  manifest tool inspect "$IMAGE_NAME:$TAG"
+  manifest-tool inspect "$IMAGE_NAME:$TAG"
 }
 
 docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASS"
