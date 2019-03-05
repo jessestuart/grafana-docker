@@ -96,5 +96,9 @@ jobs:
           command: |
             apk add --no-cache bash curl git jq
             .circleci/load_env.sh
+
+      - run:
+          name: Push manifest.
+          command: |
             .circleci/install_manifest_tool.sh
             .circleci/push_manifest.sh
