@@ -1,3 +1,5 @@
+version: 2
+
 build_jobs: &build_jobs
   jobs:
     - build-amd64
@@ -34,7 +36,7 @@ shared: &shared
 
     - run:
         name: Install build dependencies.
-        command: apk add --no-cache bash curl git jq
+        command: apk add --upgrade --no-cache bash curl git jq
 
     - run:
         name: Add dynamic shared vars to env.
@@ -53,17 +55,6 @@ shared: &shared
           source $BASH_ENV
           docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
           docker push "$IMAGE_ID"
-
-    # - run:
-    #     name: Push Docker image.
-    #     command: |
-    #       source $BASH_ENV
-    #       docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-    #       ./push_to_docker_hub.sh "$GRAFANA_VERSION"
-    #       if echo "$GRAFANA_VERSION" | grep -q "^master-"; then
-    #         apk add --no-cache curl
-    #         ./deploy_to_k8s.sh "grafana/grafana-dev:$GRAFANA_VERSION"
-    #       fi
 
 jobs:
   build-amd64:
@@ -94,7 +85,7 @@ jobs:
       - run:
           name: Load environment vars.
           command: |
-            apk add --no-cache bash curl git jq
+            apk add --upgrade --no-cache bash curl git jq
             .circleci/load_env.sh
 
       - run:
