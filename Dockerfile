@@ -1,11 +1,13 @@
-ARG TARGET
-FROM $TARGET/debian:stretch-slim
+ARG target
+FROM $target/debian:9-slim
 
-COPY qemu-* .qemu-fake /usr/bin/
+COPY qemu-* /usr/bin/
 
-ARG GRAFANA_URL="https://s3-us-west-2.amazonaws.com/grafana-releases/master/grafana-latest.linux-x64.tar.gz"
+ARG GRAFANA_URL="https://s3-us-west-2.amazonaws.com/grafana-releases/release/dist/grafana-latest.linux-x64.tar.gz"
 ARG GF_UID="472"
 ARG GF_GID="472"
+
+RUN echo "GRAFANA_URL: ${GRAFANA_URL}"
 
 ENV DEBIAN_FRONTEND noninteractive
 

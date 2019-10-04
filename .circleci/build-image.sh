@@ -2,10 +2,11 @@
 
 export IMAGE_ID="${REGISTRY}/${IMAGE}:${VERSION}-${TAG}"
 
+mkdir -p $GOPATH/src/github.com/${GITHUB_REPO}
 cd $GOPATH/src/github.com/${GITHUB_REPO}
 # ============
 # <qemu-support>
-if [ $GOARCH == 'amd64' ]; then
+if [[ $GOARCH == 'amd64' ]]; then
   touch qemu-amd64-static
 else
   curl -sL "https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/qemu-${QEMU_ARCH}-static.tar.gz" | tar xz
@@ -26,7 +27,7 @@ docker build -t ${IMAGE_ID} \
 echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
 # Push push push
 docker push ${IMAGE_ID}
-if [ $CIRCLE_BRANCH == 'master' ]; then
+if [[ $CIRCLE_BRANCH == 'master' ]]; then
   docker tag "${IMAGE_ID}" "${REGISTRY}/${IMAGE}:latest-${TAG}"
   docker push "${REGISTRY}/${IMAGE}:latest-${TAG}"
 fi
